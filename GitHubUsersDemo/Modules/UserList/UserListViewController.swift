@@ -18,6 +18,7 @@ class UserListViewController: UIViewController, CoordinatableController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        title = "GitHub Users"
         setupTableView()
         bindViewModel()
     }

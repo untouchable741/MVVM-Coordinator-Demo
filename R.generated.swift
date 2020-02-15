@@ -89,7 +89,7 @@ struct R: Rswift.Validatable {
   }
 
   #if os(iOS) || os(tvOS)
-  /// This `R.storyboard` struct is generated, and contains static references to 4 storyboards.
+  /// This `R.storyboard` struct is generated, and contains static references to 5 storyboards.
   struct storyboard {
     /// Storyboard `LaunchScreen`.
     static let launchScreen = _R.storyboard.launchScreen()
@@ -99,6 +99,8 @@ struct R: Rswift.Validatable {
     static let splashScreen = _R.storyboard.splashScreen()
     /// Storyboard `UserList`.
     static let userList = _R.storyboard.userList()
+    /// Storyboard `UserRepo`.
+    static let userRepo = _R.storyboard.userRepo()
 
     #if os(iOS) || os(tvOS)
     /// `UIStoryboard(name: "LaunchScreen", bundle: ...)`
@@ -125,6 +127,13 @@ struct R: Rswift.Validatable {
     /// `UIStoryboard(name: "UserList", bundle: ...)`
     static func userList(_: Void = ()) -> UIKit.UIStoryboard {
       return UIKit.UIStoryboard(resource: R.storyboard.userList)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIStoryboard(name: "UserRepo", bundle: ...)`
+    static func userRepo(_: Void = ()) -> UIKit.UIStoryboard {
+      return UIKit.UIStoryboard(resource: R.storyboard.userRepo)
     }
     #endif
 
@@ -229,6 +238,9 @@ struct _R: Rswift.Validatable {
       #if os(iOS) || os(tvOS)
       try userList.validate()
       #endif
+      #if os(iOS) || os(tvOS)
+      try userRepo.validate()
+      #endif
     }
 
     #if os(iOS) || os(tvOS)
@@ -293,6 +305,26 @@ struct _R: Rswift.Validatable {
         if #available(iOS 11.0, tvOS 11.0, *) {
         }
         if _R.storyboard.userList().userListViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'userListViewController' could not be loaded from storyboard 'UserList' as 'UserListViewController'.") }
+      }
+
+      fileprivate init() {}
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    struct userRepo: Rswift.StoryboardResourceType, Rswift.Validatable {
+      let bundle = R.hostingBundle
+      let name = "UserRepo"
+      let userRepoViewController = StoryboardViewControllerResource<UserRepoViewController>(identifier: "UserRepoViewController")
+
+      func userRepoViewController(_: Void = ()) -> UserRepoViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: userRepoViewController)
+      }
+
+      static func validate() throws {
+        if #available(iOS 11.0, tvOS 11.0, *) {
+        }
+        if _R.storyboard.userRepo().userRepoViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'userRepoViewController' could not be loaded from storyboard 'UserRepo' as 'UserRepoViewController'.") }
       }
 
       fileprivate init() {}

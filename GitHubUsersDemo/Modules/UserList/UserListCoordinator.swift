@@ -15,6 +15,7 @@ enum UserListFlow: CoordinatorFlow {
 
 class UserListCoordinator: TriggerableCoordinator<UserListFlow>, Coordinator {
     var coordinators: [Coordinator] = []
+    weak var navigationController: UINavigationController?
     
     func start(sceneType: SceneType) {
         self.launch(target: makeUserListViewController(), sceneType: sceneType)
@@ -23,17 +24,31 @@ class UserListCoordinator: TriggerableCoordinator<UserListFlow>, Coordinator {
     override func triggerFlow(_ flow: UserListFlow) {
         switch flow {
         case .openUserRepo(let user):
-            print("Open repo of user \(user.login)")
+            openUserRepoModule(of: user)
+        }
+    }
+}
+
+/// MARK - Navigations
+extension UserListCoordinator {
+    func openUserRepoModule(of user: GitHubUser) {
+        let userRepoCoordinator = UserRepoCoordinator()
+        add(userRepoCoordinator)
+        userRepoCoordinator.start(sceneType: .push(navigationController!), payload: user)
+        userRepoCoordinator.detachingHandler = { [weak self] sender in
+            self?.remove(sender)
         }
     }
 }
 
 // MARK -
 extension UserListCoordinator {
-    func makeUserListViewController() -> UserListViewController {
+    func makeUserListViewController() -> UINavigationController {
         let viewController = R.storyboard.userList.userListViewController()!
         viewController.coordinator = self
-        return viewController
+        let wrapperNavigationController = UINavigationController(rootViewController: viewController)
+        navigationController = wrapperNavigationController
+        return wrapperNavigationController
     }
 }
 
