@@ -89,7 +89,7 @@ struct R: Rswift.Validatable {
   }
 
   #if os(iOS) || os(tvOS)
-  /// This `R.storyboard` struct is generated, and contains static references to 3 storyboards.
+  /// This `R.storyboard` struct is generated, and contains static references to 4 storyboards.
   struct storyboard {
     /// Storyboard `LaunchScreen`.
     static let launchScreen = _R.storyboard.launchScreen()
@@ -97,6 +97,8 @@ struct R: Rswift.Validatable {
     static let main = _R.storyboard.main()
     /// Storyboard `SplashScreen`.
     static let splashScreen = _R.storyboard.splashScreen()
+    /// Storyboard `UserList`.
+    static let userList = _R.storyboard.userList()
 
     #if os(iOS) || os(tvOS)
     /// `UIStoryboard(name: "LaunchScreen", bundle: ...)`
@@ -119,9 +121,58 @@ struct R: Rswift.Validatable {
     }
     #endif
 
+    #if os(iOS) || os(tvOS)
+    /// `UIStoryboard(name: "UserList", bundle: ...)`
+    static func userList(_: Void = ()) -> UIKit.UIStoryboard {
+      return UIKit.UIStoryboard(resource: R.storyboard.userList)
+    }
+    #endif
+
     fileprivate init() {}
   }
   #endif
+
+  /// This `R.file` struct is generated, and contains static references to 1 files.
+  struct file {
+    /// Resource file `users.json`.
+    static let usersJson = Rswift.FileResource(bundle: R.hostingBundle, name: "users", pathExtension: "json")
+
+    /// `bundle.url(forResource: "users", withExtension: "json")`
+    static func usersJson(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.usersJson
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
+    fileprivate init() {}
+  }
+
+  /// This `R.nib` struct is generated, and contains static references to 1 nibs.
+  struct nib {
+    /// Nib `GitHubUserTableViewCell`.
+    static let gitHubUserTableViewCell = _R.nib._GitHubUserTableViewCell()
+
+    #if os(iOS) || os(tvOS)
+    /// `UINib(name: "GitHubUserTableViewCell", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.gitHubUserTableViewCell) instead")
+    static func gitHubUserTableViewCell(_: Void = ()) -> UIKit.UINib {
+      return UIKit.UINib(resource: R.nib.gitHubUserTableViewCell)
+    }
+    #endif
+
+    static func gitHubUserTableViewCell(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> GitHubUserTableViewCell? {
+      return R.nib.gitHubUserTableViewCell.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? GitHubUserTableViewCell
+    }
+
+    fileprivate init() {}
+  }
+
+  /// This `R.reuseIdentifier` struct is generated, and contains static references to 1 reuse identifiers.
+  struct reuseIdentifier {
+    /// Reuse identifier `GitHubUserCell`.
+    static let gitHubUserCell: Rswift.ReuseIdentifier<GitHubUserTableViewCell> = Rswift.ReuseIdentifier(identifier: "GitHubUserCell")
+
+    fileprivate init() {}
+  }
 
   fileprivate struct intern: Rswift.Validatable {
     fileprivate static func validate() throws {
@@ -144,6 +195,26 @@ struct _R: Rswift.Validatable {
   }
 
   #if os(iOS) || os(tvOS)
+  struct nib {
+    struct _GitHubUserTableViewCell: Rswift.NibResourceType, Rswift.ReuseIdentifierType {
+      typealias ReusableType = GitHubUserTableViewCell
+
+      let bundle = R.hostingBundle
+      let identifier = "GitHubUserCell"
+      let name = "GitHubUserTableViewCell"
+
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> GitHubUserTableViewCell? {
+        return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? GitHubUserTableViewCell
+      }
+
+      fileprivate init() {}
+    }
+
+    fileprivate init() {}
+  }
+  #endif
+
+  #if os(iOS) || os(tvOS)
   struct storyboard: Rswift.Validatable {
     static func validate() throws {
       #if os(iOS) || os(tvOS)
@@ -154,6 +225,9 @@ struct _R: Rswift.Validatable {
       #endif
       #if os(iOS) || os(tvOS)
       try splashScreen.validate()
+      #endif
+      #if os(iOS) || os(tvOS)
+      try userList.validate()
       #endif
     }
 
@@ -199,6 +273,26 @@ struct _R: Rswift.Validatable {
       static func validate() throws {
         if #available(iOS 11.0, tvOS 11.0, *) {
         }
+      }
+
+      fileprivate init() {}
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    struct userList: Rswift.StoryboardResourceType, Rswift.Validatable {
+      let bundle = R.hostingBundle
+      let name = "UserList"
+      let userListViewController = StoryboardViewControllerResource<UserListViewController>(identifier: "UserListViewController")
+
+      func userListViewController(_: Void = ()) -> UserListViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: userListViewController)
+      }
+
+      static func validate() throws {
+        if #available(iOS 11.0, tvOS 11.0, *) {
+        }
+        if _R.storyboard.userList().userListViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'userListViewController' could not be loaded from storyboard 'UserList' as 'UserListViewController'.") }
       }
 
       fileprivate init() {}

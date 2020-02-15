@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 enum UserListFlow: CoordinatorFlow {
-    case openUserRepo
+    case openUserRepo(GitHubUser)
 }
 
 class UserListCoordinator: TriggerableCoordinator<UserListFlow>, Coordinator {
@@ -22,16 +22,17 @@ class UserListCoordinator: TriggerableCoordinator<UserListFlow>, Coordinator {
     
     override func triggerFlow(_ flow: UserListFlow) {
         switch flow {
-        case .openUserRepo:
-            print("Open user repo")
+        case .openUserRepo(let user):
+            print("Open repo of user \(user.login)")
         }
     }
 }
 
 // MARK -
 extension UserListCoordinator {
-    func makeUserListViewController() -> UIViewController {
-        var viewController = UIViewController()
+    func makeUserListViewController() -> UserListViewController {
+        let viewController = R.storyboard.userList.userListViewController()!
+        viewController.coordinator = self
         return viewController
     }
 }

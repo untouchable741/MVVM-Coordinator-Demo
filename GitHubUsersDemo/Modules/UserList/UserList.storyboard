@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--User List View Controller-->
+        <scene sceneID="KRs-5X-1eD">
+            <objects>
+                <viewController storyboardIdentifier="UserListViewController" id="MJY-F2-fMk" customClass="UserListViewController" customModule="GitHubUsersDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sTB-Oq-ARU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="f4j-Sy-rfa">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="q6q-qN-M3b">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="UYf-Mi-c9h">
+                                            <rect key="frame" x="197" y="12" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <constraints>
+                                        <constraint firstItem="UYf-Mi-c9h" firstAttribute="centerX" secondItem="q6q-qN-M3b" secondAttribute="centerX" id="Owf-UD-r4M"/>
+                                        <constraint firstItem="UYf-Mi-c9h" firstAttribute="centerY" secondItem="q6q-qN-M3b" secondAttribute="centerY" id="cTL-RK-OXo"/>
+                                    </constraints>
+                                </view>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="H7Y-PB-Jgl" firstAttribute="bottom" secondItem="f4j-Sy-rfa" secondAttribute="bottom" id="3gv-uD-Tkp"/>
+                            <constraint firstItem="f4j-Sy-rfa" firstAttribute="top" secondItem="H7Y-PB-Jgl" secondAttribute="top" id="PTs-db-Oqe"/>
+                            <constraint firstItem="f4j-Sy-rfa" firstAttribute="leading" secondItem="H7Y-PB-Jgl" secondAttribute="leading" id="XZw-Zg-E96"/>
+                            <constraint firstItem="H7Y-PB-Jgl" firstAttribute="trailing" secondItem="f4j-Sy-rfa" secondAttribute="trailing" id="aIx-R6-Dh5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="H7Y-PB-Jgl"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ATC-nL-9dt"/>
+                    <connections>
+                        <outlet property="userListTableView" destination="f4j-Sy-rfa" id="6UN-Ws-alT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pvf-JL-wny" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1046.25" y="117.25352112676056"/>
+        </scene>
+    </scenes>
+</document>

@@ -19,13 +19,11 @@ class UsersNetworkClient: UsersDataProvider {
     }
     
     func fetchUsersInitialPage() -> Single<UsersListResponse> {
-        let usersInitialPageUrl = GitHubAPI.users.urlString
-        return fetchUserPage(with: usersInitialPageUrl)
+        return fetchUserPage(with: GitHubAPI.users.urlString)
     }
     
     func fetchNextUsersPage(from linkHeader: GitHubLinkHeader) -> Single<UsersListResponse> {
-        let nextLink = linkHeader.nextLink
-        return fetchUserPage(with: nextLink)
+        return fetchUserPage(with: linkHeader.nextLink)
     }
 }
 
