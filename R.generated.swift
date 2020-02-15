@@ -89,12 +89,14 @@ struct R: Rswift.Validatable {
   }
 
   #if os(iOS) || os(tvOS)
-  /// This `R.storyboard` struct is generated, and contains static references to 2 storyboards.
+  /// This `R.storyboard` struct is generated, and contains static references to 3 storyboards.
   struct storyboard {
     /// Storyboard `LaunchScreen`.
     static let launchScreen = _R.storyboard.launchScreen()
     /// Storyboard `Main`.
     static let main = _R.storyboard.main()
+    /// Storyboard `SplashScreen`.
+    static let splashScreen = _R.storyboard.splashScreen()
 
     #if os(iOS) || os(tvOS)
     /// `UIStoryboard(name: "LaunchScreen", bundle: ...)`
@@ -107,6 +109,13 @@ struct R: Rswift.Validatable {
     /// `UIStoryboard(name: "Main", bundle: ...)`
     static func main(_: Void = ()) -> UIKit.UIStoryboard {
       return UIKit.UIStoryboard(resource: R.storyboard.main)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIStoryboard(name: "SplashScreen", bundle: ...)`
+    static func splashScreen(_: Void = ()) -> UIKit.UIStoryboard {
+      return UIKit.UIStoryboard(resource: R.storyboard.splashScreen)
     }
     #endif
 
@@ -143,6 +152,9 @@ struct _R: Rswift.Validatable {
       #if os(iOS) || os(tvOS)
       try main.validate()
       #endif
+      #if os(iOS) || os(tvOS)
+      try splashScreen.validate()
+      #endif
     }
 
     #if os(iOS) || os(tvOS)
@@ -167,6 +179,22 @@ struct _R: Rswift.Validatable {
 
       let bundle = R.hostingBundle
       let name = "Main"
+
+      static func validate() throws {
+        if #available(iOS 11.0, tvOS 11.0, *) {
+        }
+      }
+
+      fileprivate init() {}
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    struct splashScreen: Rswift.StoryboardResourceWithInitialControllerType, Rswift.Validatable {
+      typealias InitialController = SplashScreenViewController
+
+      let bundle = R.hostingBundle
+      let name = "SplashScreen"
 
       static func validate() throws {
         if #available(iOS 11.0, tvOS 11.0, *) {
