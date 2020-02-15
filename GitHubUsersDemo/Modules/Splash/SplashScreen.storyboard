@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3AV-FV-SWe">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Splash Screen View Controller-->
+        <scene sceneID="rOw-bw-Qgb">
+            <objects>
+                <viewController id="3AV-FV-SWe" customClass="SplashScreenViewController" customModule="GitHubUsersDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="x65-O9-2eA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Splash Screen" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XuA-d8-Azh">
+                                <rect key="frame" x="102.5" y="368.5" width="209" height="41"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="wEq-Gv-H7f">
+                                <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E49-RA-fpj">
+                                <rect key="frame" x="0.0" y="474" width="414" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="SBj-QP-Uhf" firstAttribute="trailing" secondItem="E49-RA-fpj" secondAttribute="trailing" id="20c-PK-b4S"/>
+                            <constraint firstItem="XuA-d8-Azh" firstAttribute="bottom" secondItem="wEq-Gv-H7f" secondAttribute="top" constant="-20" id="F5w-Ed-5cv"/>
+                            <constraint firstItem="XuA-d8-Azh" firstAttribute="centerX" secondItem="x65-O9-2eA" secondAttribute="centerX" id="Ieq-LR-ZyB"/>
+                            <constraint firstItem="wEq-Gv-H7f" firstAttribute="centerX" secondItem="x65-O9-2eA" secondAttribute="centerX" id="baA-tM-lc9"/>
+                            <constraint firstItem="wEq-Gv-H7f" firstAttribute="centerY" secondItem="x65-O9-2eA" secondAttribute="centerY" id="neB-hn-KXS"/>
+                            <constraint firstItem="E49-RA-fpj" firstAttribute="top" secondItem="wEq-Gv-H7f" secondAttribute="bottom" constant="7.5" id="v5q-Ca-48Z"/>
+                            <constraint firstItem="E49-RA-fpj" firstAttribute="leading" secondItem="SBj-QP-Uhf" secondAttribute="leading" id="yiL-37-sGm"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="SBj-QP-Uhf"/>
+                    </view>
+                    <connections>
+                        <outlet property="countDownLabel" destination="E49-RA-fpj" id="dfO-3l-s7h"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qhq-dL-kbg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="287" y="128"/>
+        </scene>
+    </scenes>
+</document>
