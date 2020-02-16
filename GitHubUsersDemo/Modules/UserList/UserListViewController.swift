@@ -58,6 +58,9 @@ class UserListViewController: UIViewController, CoordinatableController {
                 }
                 self?.userListTableView.deselectRow(at: indexPath, animated: true)
             }),
+            
+            // Binding for custom state which depend on various screen scenario
+            // For this User List screen, we use it to notify various situation of the app state
             viewModel.stateObservable
                 .observeOn(MainScheduler.instance)
                 .subscribe(onNext: { [weak self] (state) in
@@ -70,13 +73,17 @@ class UserListViewController: UIViewController, CoordinatableController {
                         UIApplication.shared.isNetworkActivityIndicatorVisible = true
                     case .receiveEmptyData:
                         self?.userListTableView.showEmptyDataFooter()
+                    case .reachedLastPage:
+                        self?.userListTableView.showReachedEndPage()
                     }
                 } else {
                     self?.userListTableView.resetFooter()
                 }
             }),
+            // Binding common app state (idle, loading, error)
             bindToProgressHUD(with: viewModel)])
         
+        // Start fetching initial data
         viewModel.fetchInitialPage()
     }
     

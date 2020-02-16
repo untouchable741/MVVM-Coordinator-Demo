@@ -28,7 +28,11 @@ class AppCoordinator: NSObject, Coordinator {
 /// Child coordinator delegation
 extension AppCoordinator: SplashCoordinatorDelegate {
     func splashCoordinatorDidFinishLoadData(_ sender: SplashScreenCoordinator) {
+        // App has finished load initial data
+        // Check user authentication state for determining which flow to go next Authentication flow or Main flow
+        // Remove splash coordinator
         remove(sender)
+        // Open list module
         openUserListModule()
     }
 }

@@ -14,6 +14,10 @@ extension UITableView {
         return offset.y + frame.size.height + threshold >= contentSize.height
     }
     
+    func showReachedEndPage() {
+        tableFooterView = makeFooterView(with: "Reached end of users list.")
+    }
+    
     func showLoadMoreFooter() {
         tableFooterView = makeFooterView(with: "Loading more users ...", hasLoadingIndicator: true)
     }
