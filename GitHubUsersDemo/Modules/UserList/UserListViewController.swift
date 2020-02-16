@@ -20,6 +20,7 @@ class UserListViewController: UIViewController, CoordinatableController {
         // Do any additional setup after loading the view.
         title = "GitHub Users"
         setupTableView()
+        setupRefreshControl()
         bindViewModel()
     }
     
@@ -28,43 +29,54 @@ class UserListViewController: UIViewController, CoordinatableController {
                                    forCellReuseIdentifier: R.reuseIdentifier.gitHubUserCell.identifier)
     }
     
+    func setupRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        userListTableView.addSubview(refreshControl)
+        refreshControl.rx.controlEvent(.valueChanged).subscribe(onNext: { [weak self, weak refreshControl] in
+            self?.viewModel.fetchInitialPage(isPullRefresh: true)
+            refreshControl?.endRefreshing()
+        }).disposed(by: disposeBag)
+    }
+    
     func bindViewModel() {
         disposeBag.insert([
             viewModel.$users.bind(to: userListTableView.rx.items(cellIdentifier: R.reuseIdentifier.gitHubUserCell.identifier, cellType: GitHubUserTableViewCell.self)) { [weak self] _, user, cell in
-            cell.configure(with: user)
-            cell.delegate = self
-        },
-        userListTableView.rx.contentOffset.distinctUntilChanged().compactMap { [weak userListTableView] offset in
-            return userListTableView?.isReachingBottom(with: offset)
-        }.filter { $0 }.subscribe(onNext: { [weak self] _ in
-            self?.viewModel.loadMore()
-        }),
-        userListTableView.rx.itemSelected.subscribe(onNext: { [weak self] indexPath in
-            if let user = self?.viewModel.user(at: indexPath.row) {
-                self?.coordinator?.triggerFlow(.openUserRepo(user))
+                cell.configure(with: user)
+                cell.delegate = self
+            },
+            userListTableView.rx.contentOffset.distinctUntilChanged().compactMap { [weak userListTableView] offset in
+                return userListTableView?.isReachingBottom(with: offset)
             }
-            self?.userListTableView.deselectRow(at: indexPath, animated: true)
-        }),
-        viewModel.stateObservable.subscribe(onNext: { [weak self] (state) in
-            if case .completed(let action) = state {
-                switch action {
-                case .exceedRateLimit:
-                    self?.userListTableView.showExceedRateLimitFooter()
-                case .sentLoadMoreRequest:
-                    self?.userListTableView.showLoadMoreFooter()
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
-                case .receiveEmptyData:
-                    self?.userListTableView.showEmptyDataFooter()
+            .filter { $0 }
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.loadMore()
+            }),
+            userListTableView.rx.itemSelected.subscribe(onNext: { [weak self] indexPath in
+                if let user = self?.viewModel.user(at: indexPath.row) {
+                    self?.coordinator?.triggerFlow(.openUserRepo(user))
                 }
-            } else {
-                self?.userListTableView.resetFooter()
-            }
-        }),
-        bindToProgressHUD(with: viewModel)])
+                self?.userListTableView.deselectRow(at: indexPath, animated: true)
+            }),
+            viewModel.stateObservable.subscribe(onNext: { [weak self] (state) in
+                if case .completed(let action) = state {
+                    switch action {
+                    case .exceedRateLimit:
+                        self?.userListTableView.showExceedRateLimitFooter()
+                    case .sentLoadMoreRequest:
+                        self?.userListTableView.showLoadMoreFooter()
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                    case .receiveEmptyData:
+                        self?.userListTableView.showEmptyDataFooter()
+                    }
+                } else {
+                    self?.userListTableView.resetFooter()
+                }
+            }),
+            bindToProgressHUD(with: viewModel)])
         
         viewModel.fetchInitialPage()
     }
-
+    
     @IBOutlet weak var userListTableView: UITableView!
 }
 

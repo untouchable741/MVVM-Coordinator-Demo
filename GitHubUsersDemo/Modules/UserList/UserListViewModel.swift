@@ -32,7 +32,10 @@ class UserListViewModel: RxViewModel {
         self.usersNetworkClient = usersNetworkClient
     }
     
-    func fetchInitialPage() {
+    func fetchInitialPage(isPullRefresh: Bool = false) {
+        if isPullRefresh {
+            resetData()
+        }
         setState(.loading("Loading User List"))
         usersNetworkClient.fetchUsersInitialPage()
             .catchError({ [unowned self] in self.handleError($0)})
@@ -48,18 +51,18 @@ class UserListViewModel: RxViewModel {
     }
     
     func loadMore() {
-        guard isLoadingMore == false else { return }
+        guard isLoadingMore == false, users.count > 0 else { return }
         guard let linkHeader = lastLinkHeader else { return }
         isLoadingMore = true
         setState(.completed(.sentLoadMoreRequest))
         usersNetworkClient.fetchNextUsersPage(from: linkHeader)
             .catchError({ [unowned self] in self.handleError($0)})
             .subscribe(onSuccess: { [weak self] result in
-            self?.setState(.idle)
-            self?.lastLinkHeader = result.linkHeader
-            self?.isLoadingMore = false
-            self?.users.append(contentsOf: result.users)
-        }).disposed(by: disposeBag)
+                self?.setState(.idle)
+                self?.lastLinkHeader = result.linkHeader
+                self?.isLoadingMore = false
+                self?.users.append(contentsOf: result.users)
+            }).disposed(by: disposeBag)
     }
     
     func handleError<E>(_ error: Error) -> PrimitiveSequence<MaybeTrait, E> {
@@ -84,6 +87,11 @@ class UserListViewModel: RxViewModel {
             updatedUser.isFavourited.toggle()
             users[index] = updatedUser
         }
+    }
+    
+    func resetData() {
+        users = []
+        setState(.idle)
     }
     
     func user(at index: Int) -> GitHubUser? {
