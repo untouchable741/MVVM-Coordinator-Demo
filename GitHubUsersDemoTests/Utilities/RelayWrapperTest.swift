@@ -1,16 +1,20 @@
 //
-//  GitHubUsersDemoTests.swift
+//  RelayWrapperTest.swift
 //  GitHubUsersDemoTests
 //
-//  Created by TAI VUONG on 2/15/20.
+//  Created by TAI VUONG on 2/16/20.
 //  Copyright © 2020 TAI VUONG. All rights reserved.
 //
 
 import XCTest
 @testable import GitHubUsersDemo
+import RxRelay
+import RxBlocking
 
-class GitHubUsersDemoTests: XCTestCase {
-
+class RelayWrapperTest: XCTestCase {
+    
+    @Relay var intRelay: Int?
+    
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -24,11 +28,10 @@ class GitHubUsersDemoTests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func test_projectedValue() {
+        intRelay = 99
+        XCTAssertEqual(try! $intRelay.toBlocking(timeout: 1).first()!, 99)
+        intRelay = 88
+        XCTAssertEqual(try! $intRelay.toBlocking(timeout: 1).first()!, 88)
     }
-
 }

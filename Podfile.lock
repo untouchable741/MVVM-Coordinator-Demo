@@ -21,6 +21,8 @@ PODS:
   - RxRelay (5.0.1):
     - RxSwift (~> 5)
   - RxSwift (5.0.1)
+  - RxTest (5.0.1):
+    - RxSwift (~> 5)
   - SVProgressHUD (2.2.5)
   - URITemplate (3.0.0)
 
@@ -32,6 +34,7 @@ DEPENDENCIES:
   - RxBlocking
   - RxCocoa
   - RxSwift
+  - RxTest
   - SVProgressHUD
 
 SPEC REPOS:
@@ -45,6 +48,7 @@ SPEC REPOS:
     - RxCocoa
     - RxRelay
     - RxSwift
+    - RxTest
     - SVProgressHUD
     - URITemplate
 
@@ -58,9 +62,10 @@ SPEC CHECKSUMS:
   RxCocoa: e741b9749968e8a143e2b787f1dfbff2b63d0a5c
   RxRelay: 89d54507f4fd4d969e6ec1d4bd7f3673640b4640
   RxSwift: e2dc62b366a3adf6a0be44ba9f405efd4c94e0c4
+  RxTest: 0132f952a61da82d5233abedaa559df91e5330e5
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   URITemplate: 58e0d47f967006c5d59888af5356c4a8ed3b197d
 
-PODFILE CHECKSUM: 0a54bcfc241fd494de4c0d67ac554f150dd31265
+PODFILE CHECKSUM: 2e6811fcc232f0c0e4c812eb93c453f8c8dbd780
 
 COCOAPODS: 1.8.4

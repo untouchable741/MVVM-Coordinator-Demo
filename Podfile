@@ -10,6 +10,7 @@ target 'GitHubUsersDemo' do
   pod 'RxBlocking'
   pod 'RxCocoa'
   pod 'R.swift'
+  pod 'RxTest'
   pod 'SVProgressHUD'
   
   # Pods for GitHubUsersDemo
