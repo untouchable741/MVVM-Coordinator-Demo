@@ -45,6 +45,21 @@ class UserListViewController: UIViewController, CoordinatableController {
             }
             self?.userListTableView.deselectRow(at: indexPath, animated: true)
         }),
+        viewModel.stateObservable.subscribe(onNext: { [weak self] (state) in
+            if case .completed(let action) = state {
+                switch action {
+                case .exceedRateLimit:
+                    self?.userListTableView.showExceedRateLimitFooter()
+                case .sentLoadMoreRequest:
+                    self?.userListTableView.showLoadMoreFooter()
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                case .receiveEmptyData:
+                    self?.userListTableView.showEmptyDataFooter()
+                }
+            } else {
+                self?.userListTableView.resetFooter()
+            }
+        }),
         bindToProgressHUD(with: viewModel)])
         
         viewModel.fetchInitialPage()

@@ -26,6 +26,11 @@ class NetworkClient: NetworkDataProvider {
                 .validate(statusCode: 200..<300)
                 .responseData(completionHandler: { dataResponse in
                     if let error = dataResponse.error {
+                        // Try to parse server response if possible
+                        if let response = try? JSONSerialization.jsonObject(with: dataResponse.data!, options: .allowFragments) as? [String: Any],
+                            let message = response["message"] as? String {
+                            return maybe(.error(NetworkError.serverResponse(code: dataResponse.response?.statusCode, message: message)))
+                        }
                         return maybe(.error(error))
                     } else {
                         return maybe(.success(dataResponse))

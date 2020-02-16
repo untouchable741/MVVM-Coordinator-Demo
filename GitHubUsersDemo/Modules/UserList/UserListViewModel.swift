@@ -11,9 +11,15 @@ import RxSwift
 import RxRelay
 
 class UserListViewModel: RxViewModel {
+    enum UserListAction {
+        case sentLoadMoreRequest
+        case exceedRateLimit
+        case receiveEmptyData
+    }
+    
     /// RxViewModel state publisher
-    typealias DataType = Void
-    var stateObservable =  BehaviorRelay<ViewModelState<Void>>(value: .idle)
+    typealias DataType = UserListAction
+    var stateObservable =  BehaviorRelay<ViewModelState<UserListAction>>(value: .idle)
     
     /// Binding data
     @Relay var users: [GitHubUser] = []
@@ -31,9 +37,13 @@ class UserListViewModel: RxViewModel {
         usersNetworkClient.fetchUsersInitialPage()
             .catchError({ [unowned self] in self.handleError($0)})
             .subscribe(onSuccess: { [weak self] result in
-                self?.setState(.idle)
-                self?.users = result.users
-                self?.lastLinkHeader = result.linkHeader
+                if result.users.count > 0 {
+                    self?.setState(.idle)
+                    self?.users = result.users
+                    self?.lastLinkHeader = result.linkHeader
+                } else {
+                    self?.setState(.completed(.receiveEmptyData))
+                }
             }).disposed(by: disposeBag)
     }
     
@@ -41,13 +51,29 @@ class UserListViewModel: RxViewModel {
         guard isLoadingMore == false else { return }
         guard let linkHeader = lastLinkHeader else { return }
         isLoadingMore = true
+        setState(.completed(.sentLoadMoreRequest))
         usersNetworkClient.fetchNextUsersPage(from: linkHeader)
             .catchError({ [unowned self] in self.handleError($0)})
             .subscribe(onSuccess: { [weak self] result in
+            self?.setState(.idle)
             self?.lastLinkHeader = result.linkHeader
             self?.isLoadingMore = false
             self?.users.append(contentsOf: result.users)
         }).disposed(by: disposeBag)
+    }
+    
+    func handleError<E>(_ error: Error) -> PrimitiveSequence<MaybeTrait, E> {
+        switch error {
+        case NetworkError.serverResponse(let code, _):
+            if code == 403 {
+                setState(.completed(.exceedRateLimit))
+            } else {
+                setState(.error(error))
+            }
+        default:
+            setState(.error(error))
+        }
+        return Maybe.empty()
     }
     
     func toggleFavorite(on user: GitHubUser?) {

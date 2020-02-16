@@ -20,9 +20,12 @@ extension UIViewController {
                          viewModel.stateObservable.asObservable()).subscribe(onNext: { state in
             SVProgressHUD.dismiss()
             switch state {
+            case .idle:
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
             case .loading(let status):
                 if shouldShowLoading {
                     SVProgressHUD.show(withStatus: status)
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
                 }
             case .error(let error):
                 if shouldShowError {
