@@ -17,7 +17,9 @@ extension UIViewController {
                                                       shouldShowLoading: Bool = true,
                                                       shouldShowError: Bool = true) -> Disposable {
         return Observable.merge(rx.methodInvoked(#selector(viewWillDisappear(_:))).map { _ in ViewModelState<AnyViewModel.DataType>.idle },
-                         viewModel.stateObservable.asObservable()).subscribe(onNext: { state in
+                         viewModel.stateObservable.asObservable())
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { state in
             SVProgressHUD.dismiss()
             switch state {
             case .idle:

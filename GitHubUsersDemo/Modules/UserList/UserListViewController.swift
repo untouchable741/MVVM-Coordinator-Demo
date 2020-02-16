@@ -40,7 +40,8 @@ class UserListViewController: UIViewController, CoordinatableController {
     
     func bindViewModel() {
         disposeBag.insert([
-            viewModel.$users.bind(to: userListTableView.rx.items(cellIdentifier: R.reuseIdentifier.gitHubUserCell.identifier, cellType: GitHubUserTableViewCell.self)) { [weak self] _, user, cell in
+            viewModel.$users.asDriver()
+                .drive(userListTableView.rx.items(cellIdentifier: R.reuseIdentifier.gitHubUserCell.identifier, cellType: GitHubUserTableViewCell.self)) { [weak self] _, user, cell in
                 cell.configure(with: user)
                 cell.delegate = self
             },
@@ -57,7 +58,9 @@ class UserListViewController: UIViewController, CoordinatableController {
                 }
                 self?.userListTableView.deselectRow(at: indexPath, animated: true)
             }),
-            viewModel.stateObservable.subscribe(onNext: { [weak self] (state) in
+            viewModel.stateObservable
+                .observeOn(MainScheduler.instance)
+                .subscribe(onNext: { [weak self] (state) in
                 if case .completed(let action) = state {
                     switch action {
                     case .exceedRateLimit:

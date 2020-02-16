@@ -24,7 +24,7 @@ class NetworkClient: NetworkDataProvider {
             let urlEncoding = GitHubRequestEncoding(queries: queries, body: body, headers: headers)
             let request = Alamofire.request(url, method: method, encoding: urlEncoding)
                 .validate(statusCode: 200..<300)
-                .responseData(completionHandler: { dataResponse in
+                .responseData(queue: DispatchQueue.global(qos: .background), completionHandler: { dataResponse in
                     if let error = dataResponse.error {
                         // Try to parse server response if possible
                         if let response = try? JSONSerialization.jsonObject(with: dataResponse.data!, options: .allowFragments) as? [String: Any],

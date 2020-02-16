@@ -31,16 +31,16 @@ fileprivate extension UsersNetworkClient {
     func fetchUserPage(with urlString: String?) -> Maybe<UsersListResponse> {
         guard let urlString = urlString else {
             return Maybe.error(NetworkError.badUrl)
+                        .observeOn(ConcurrentDispatchQueueScheduler.init(qos: .background))
         }
-        
         return networkClient.get(urlString: urlString).map { dataResponse in
-            guard let response = dataResponse as? DataResponse<Data>,
-                let data = response.data else {
-                    throw NetworkError.badUrl
-            }
-            let users = try JSONDecoder().decode([GitHubUser].self, from: data)
-            let linkHeader = GitHubLinkParser.parseGitHubLinkHeader(response.response?.allHeaderFields["Link"] as? String)
-            return (users, linkHeader)
+                guard let response = dataResponse as? DataResponse<Data>,
+                    let data = response.data else {
+                        throw NetworkError.invalidResponse
+                }
+                let users = try JSONDecoder().decode([GitHubUser].self, from: data)
+                let linkHeader = GitHubLinkParser.parseGitHubLinkHeader(response.response?.allHeaderFields["Link"] as? String)
+                return (users, linkHeader)
         }
     }
 }
