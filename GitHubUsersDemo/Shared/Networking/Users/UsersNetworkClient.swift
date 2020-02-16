@@ -18,19 +18,19 @@ class UsersNetworkClient: UsersDataProvider {
         self.networkClient = networkClient
     }
     
-    func fetchUsersInitialPage() -> Single<UsersListResponse> {
+    func fetchUsersInitialPage() -> Maybe<UsersListResponse> {
         return fetchUserPage(with: GitHubAPI.users.urlString)
     }
     
-    func fetchNextUsersPage(from linkHeader: GitHubLinkHeader) -> Single<UsersListResponse> {
+    func fetchNextUsersPage(from linkHeader: GitHubLinkHeader) -> Maybe<UsersListResponse> {
         return fetchUserPage(with: linkHeader.nextLink)
     }
 }
 
 fileprivate extension UsersNetworkClient {
-    func fetchUserPage(with urlString: String?) -> Single<UsersListResponse> {
+    func fetchUserPage(with urlString: String?) -> Maybe<UsersListResponse> {
         guard let urlString = urlString else {
-            return Single.error(NetworkError.badUrl)
+            return Maybe.error(NetworkError.badUrl)
         }
         
         return networkClient.get(urlString: urlString).map { dataResponse in

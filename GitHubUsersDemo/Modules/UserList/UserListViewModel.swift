@@ -8,8 +8,14 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 
-class UserListViewModel {
+class UserListViewModel: RxViewModel {
+    /// RxViewModel state publisher
+    typealias DataType = Void
+    var stateObservable =  BehaviorRelay<ViewModelState<Void>>(value: .idle)
+    
+    /// Binding data
     @Relay var users: [GitHubUser] = []
     let usersNetworkClient: UsersDataProvider
     var lastLinkHeader: GitHubLinkHeader?
@@ -21,8 +27,11 @@ class UserListViewModel {
     }
     
     func fetchInitialPage() {
+        setState(.loading("Loading User List"))
         usersNetworkClient.fetchUsersInitialPage()
-            .subscribe(onSuccess: { [weak self] (result) in
+            .catchError({ [unowned self] in self.handleError($0)})
+            .subscribe(onSuccess: { [weak self] result in
+                self?.setState(.idle)
                 self?.users = result.users
                 self?.lastLinkHeader = result.linkHeader
             }).disposed(by: disposeBag)
@@ -32,7 +41,9 @@ class UserListViewModel {
         guard isLoadingMore == false else { return }
         guard let linkHeader = lastLinkHeader else { return }
         isLoadingMore = true
-        usersNetworkClient.fetchNextUsersPage(from: linkHeader).subscribe(onSuccess: { [weak self] result in
+        usersNetworkClient.fetchNextUsersPage(from: linkHeader)
+            .catchError({ [unowned self] in self.handleError($0)})
+            .subscribe(onSuccess: { [weak self] result in
             self?.lastLinkHeader = result.linkHeader
             self?.isLoadingMore = false
             self?.users.append(contentsOf: result.users)

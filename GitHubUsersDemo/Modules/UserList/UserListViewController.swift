@@ -44,7 +44,9 @@ class UserListViewController: UIViewController, CoordinatableController {
                 self?.coordinator?.triggerFlow(.openUserRepo(user))
             }
             self?.userListTableView.deselectRow(at: indexPath, animated: true)
-        })])
+        }),
+        bindToProgressHUD(with: viewModel)])
+        
         viewModel.fetchInitialPage()
     }
 

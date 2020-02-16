@@ -12,7 +12,7 @@ import RxSwift
 typealias UsersListResponse = (users: [GitHubUser], linkHeader: GitHubLinkHeader)
 
 protocol UsersDataProvider {
-    func fetchUsersInitialPage() -> Single<UsersListResponse>
-    func fetchNextUsersPage(from linkHeader: GitHubLinkHeader) -> Single<UsersListResponse>
+    func fetchUsersInitialPage() -> Maybe<UsersListResponse>
+    func fetchNextUsersPage(from linkHeader: GitHubLinkHeader) -> Maybe<UsersListResponse>
 }
 

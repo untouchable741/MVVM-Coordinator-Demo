@@ -11,12 +11,12 @@ import RxSwift
 
 /// Protocol defined standard RESTful request interface (GET - POST - PUT - DELETE)
 protocol NetworkDataProvider {
-    func get(urlString: String, queryItems: [String: Any]) -> Single<Any?>
+    func get(urlString: String, queryItems: [String: Any]) -> Maybe<Any?>
 }
 
 /// Extends to provide default parameters as protocol does not support default params
 extension NetworkDataProvider {
-    func get(urlString: String, queryItems: [String: Any] = [:]) -> Single<Any?> {
+    func get(urlString: String, queryItems: [String: Any] = [:]) -> Maybe<Any?> {
         return get(urlString: urlString, queryItems: [:])
     }
 }
