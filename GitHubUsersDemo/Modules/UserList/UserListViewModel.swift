@@ -11,7 +11,8 @@ import RxSwift
 import RxRelay
 
 /// Conform RxViewModel with associated type
-class UserListViewModel: RxViewModel {
+class UserListViewModel: RxViewModel, Paginatable {
+    
     /// Each screen will define different Action which can be used for notifying various of custom state throught ViewModelState
     enum UserListAction {
         case sentLoadMoreRequest
@@ -30,8 +31,21 @@ class UserListViewModel: RxViewModel {
     let dataPersistor: DataPersistor
     var lastLinkHeader: GitHubLinkHeader?
     var disposeBag = DisposeBag()
-    var isLoadingMore = false
     var favouritesUserIds: [Int] = []
+    
+    /// State indicate of current pagination status
+    var paginationStatus: PaginationStatus = .canLoadMore {
+        didSet {
+            switch paginationStatus {
+            case .inProcessing:
+                setState(.completed(.sentLoadMoreRequest))
+            case .reachedLastPage:
+                setState(.completed(.reachedLastPage))
+            case .canLoadMore:
+                setState(.idle)
+            }
+        }
+    }
     
     /// Dependencie Injection
     init(usersNetworkClient: UsersDataProvider = UsersNetworkClient(),
@@ -55,7 +69,7 @@ class UserListViewModel: RxViewModel {
                 // Handle empty data on initial request
                 if result.users.count > 0 {
                     let mappedUsers = self.mappingFavouritesState(for: result.users)
-                    self.setState(.idle)
+                    self.paginationStatus = .canLoadMore
                     self.users = mappedUsers
                     self.lastLinkHeader = result.linkHeader
                 } else {
@@ -64,29 +78,24 @@ class UserListViewModel: RxViewModel {
             }).disposed(by: disposeBag)
     }
     
-    func loadMore() {
-        // Make sure we won't send duplicate load more request when there is already request being process
-        // Also need to make sure load more request wont triggered on initial load (users.count > 0)
-        guard isLoadingMore == false, users.count > 0 else { return }
-        // No information of last link header, suppose reaching end of user list ?
+    func handleLoadMore() {
+        // No information of next link header, supposed reaching end of user list ?
         guard let linkHeader = lastLinkHeader else {
-            return setState(.completed(.reachedLastPage))
+            return paginationStatus = .reachedLastPage
         }
-        isLoadingMore = true
-        // Trigger UI update
-        setState(.completed(.sentLoadMoreRequest))
+        // Update pagination state
+        paginationStatus = .inProcessing
         // Sending request
         usersNetworkClient.fetchNextUsersPage(from: linkHeader)
             .catchError({ [unowned self] in self.handleError($0)})
             .subscribe(onSuccess: { [weak self] result in
                 guard let `self` = self else { return }
                 if result.users.isEmpty {
-                    self.setState(.completed(.reachedLastPage))
+                    self.paginationStatus = .reachedLastPage
                 } else {
                     let mappedUsers = self.mappingFavouritesState(for: result.users)
-                    self.setState(.idle)
+                    self.paginationStatus = .canLoadMore
                     self.lastLinkHeader = result.linkHeader
-                    self.isLoadingMore = false
                     self.users.append(contentsOf: mappedUsers)
                 }
             }).disposed(by: disposeBag)
@@ -150,8 +159,7 @@ extension UserListViewModel {
     func resetData() {
         // Reset all data to initial state
         users = []
-        setState(.idle)
-        isLoadingMore = false
+        paginationStatus = .canLoadMore
         // Reset favoriteIds to keep the fresh data synced up
         favouritesUserIds = dataPersistor.favouriteUserIds
     }

@@ -11,6 +11,8 @@ import UIKit
 
 extension UITableView {
     func isReachingBottom(with offset: CGPoint, threshold: CGFloat = 50) -> Bool {
+        // Ignore reaching bottom check when table view content is empty
+        guard contentSize.height > 0 else { return false }
         return offset.y + frame.size.height + threshold >= contentSize.height
     }
     

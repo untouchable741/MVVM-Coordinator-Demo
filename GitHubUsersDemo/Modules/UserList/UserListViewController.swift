@@ -50,7 +50,7 @@ class UserListViewController: UIViewController, CoordinatableController {
             }
             .filter { $0 }
             .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.loadMore()
+                self?.viewModel.triggerLoadMoreIfNeeded()
             }),
             userListTableView.rx.itemSelected.subscribe(onNext: { [weak self] indexPath in
                 if let user = self?.viewModel.user(at: indexPath.row) {
