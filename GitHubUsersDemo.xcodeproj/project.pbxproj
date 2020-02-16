@@ -47,6 +47,8 @@
 		97E5495423F7F66B00AD0FF3 /* UserRepo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97E5495323F7F66B00AD0FF3 /* UserRepo.storyboard */; };
 		97E5495623F938B300AD0FF3 /* RxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5495523F938B300AD0FF3 /* RxViewModel.swift */; };
 		97E5495A23F939C000AD0FF3 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5495923F939C000AD0FF3 /* UIViewControllerExtension.swift */; };
+		97E5495C23F95FA200AD0FF3 /* UserDefaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5495B23F95FA200AD0FF3 /* UserDefaultWrapper.swift */; };
+		97E5496023F961A700AD0FF3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5495F23F961A700AD0FF3 /* DataManager.swift */; };
 		A0BB6612862524B9ABFCE9CB /* Pods_GitHubUsersDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD319E86B9853EF885719381 /* Pods_GitHubUsersDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +109,8 @@
 		97E5495323F7F66B00AD0FF3 /* UserRepo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserRepo.storyboard; sourceTree = "<group>"; };
 		97E5495523F938B300AD0FF3 /* RxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxViewModel.swift; sourceTree = "<group>"; };
 		97E5495923F939C000AD0FF3 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		97E5495B23F95FA200AD0FF3 /* UserDefaultWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultWrapper.swift; sourceTree = "<group>"; };
+		97E5495F23F961A700AD0FF3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		E447B9C650EC481F605E839D /* Pods_GitHubUsersDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GitHubUsersDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E47BD1257BEB1969AE2FAF75 /* Pods-GitHubUsersDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubUsersDemo.debug.xcconfig"; path = "Target Support Files/Pods-GitHubUsersDemo/Pods-GitHubUsersDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		FD319E86B9853EF885719381 /* Pods_GitHubUsersDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GitHubUsersDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -202,6 +206,7 @@
 		97C7672623F7BC4F00C8791A /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				97E5495E23F9619500AD0FF3 /* Manager */,
 				97C7676723F7E2A400C8791A /* Components */,
 				97C7674D23F7CF7100C8791A /* Protocol */,
 				97C7674623F7C63400C8791A /* Extension */,
@@ -280,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				97C7675E23F7D78000C8791A /* RelayWrapper.swift */,
+				97E5495B23F95FA200AD0FF3 /* UserDefaultWrapper.swift */,
 				97C7674423F7C60100C8791A /* GitHubLinkParser.swift */,
 			);
 			path = Utilities;
@@ -358,6 +364,14 @@
 				97E5494923F7EC1F00AD0FF3 /* users.json */,
 			);
 			path = MockResponse;
+			sourceTree = "<group>";
+		};
+		97E5495E23F9619500AD0FF3 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				97E5495F23F961A700AD0FF3 /* DataManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		FF822B5DDE058BA2A71137D2 /* Pods */ = {
@@ -583,6 +597,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C7675323F7D07F00C8791A /* SplashScreenCoordinator.swift in Sources */,
+				97E5496023F961A700AD0FF3 /* DataManager.swift in Sources */,
 				97E5495223F7F65F00AD0FF3 /* UserRepoViewModel.swift in Sources */,
 				97C7676323F7E1C300C8791A /* UserListViewModel.swift in Sources */,
 				97C7673B23F7C05D00C8791A /* UsersDataProvider.swift in Sources */,
@@ -609,6 +624,7 @@
 				97C7675123F7CFF200C8791A /* CoordinatableController.swift in Sources */,
 				97C7674023F7C1FC00C8791A /* UsersNetworkClient.swift in Sources */,
 				97C7673E23F7C0C600C8791A /* GitHubUser.swift in Sources */,
+				97E5495C23F95FA200AD0FF3 /* UserDefaultWrapper.swift in Sources */,
 				97C7675F23F7D78000C8791A /* RelayWrapper.swift in Sources */,
 				97C7676123F7E18300C8791A /* UserListViewController.swift in Sources */,
 				97E5495023F7F65800AD0FF3 /* UserRepoViewController.swift in Sources */,
@@ -772,8 +788,9 @@
 			baseConfigurationReference = E47BD1257BEB1969AE2FAF75 /* Pods-GitHubUsersDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LS8QRLJL3W;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = BXU3B85A8F;
 				INFOPLIST_FILE = GitHubUsersDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -782,6 +799,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = taivuong.GitHubUsersDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Wildcard Development";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -792,8 +810,9 @@
 			baseConfigurationReference = 121A3E9608D0A571358CFCC4 /* Pods-GitHubUsersDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LS8QRLJL3W;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = BXU3B85A8F;
 				INFOPLIST_FILE = GitHubUsersDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -802,6 +821,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = taivuong.GitHubUsersDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Wildcard Development";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

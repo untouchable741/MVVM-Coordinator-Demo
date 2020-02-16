@@ -25,4 +25,8 @@ struct GitHubUser: Codable {
         case accountType = "type"
         case siteAdmin = "site_admin"
     }
+    
+    mutating func update(isFavorite: Bool) {
+        isFavourited = isFavorite
+    }
 }

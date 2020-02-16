@@ -24,12 +24,17 @@ class UserListViewModel: RxViewModel {
     /// Binding data
     @Relay var users: [GitHubUser] = []
     let usersNetworkClient: UsersDataProvider
+    let dataPersistor: DataPersistor
     var lastLinkHeader: GitHubLinkHeader?
     var disposeBag = DisposeBag()
     var isLoadingMore = false
+    var favouritesUserIds: [Int] = []
     
-    init(usersNetworkClient: UsersDataProvider = UsersNetworkClient()) {
+    init(usersNetworkClient: UsersDataProvider = UsersNetworkClient(),
+         dataPersistor: DataPersistor = DataManager.shared) {
         self.usersNetworkClient = usersNetworkClient
+        self.dataPersistor = dataPersistor
+        self.favouritesUserIds = dataPersistor.favouriteUserIds
     }
     
     func fetchInitialPage(isPullRefresh: Bool = false) {
@@ -40,12 +45,14 @@ class UserListViewModel: RxViewModel {
         usersNetworkClient.fetchUsersInitialPage()
             .catchError({ [unowned self] in self.handleError($0)})
             .subscribe(onSuccess: { [weak self] result in
+                guard let `self` = self else { return }
                 if result.users.count > 0 {
-                    self?.setState(.idle)
-                    self?.users = result.users
-                    self?.lastLinkHeader = result.linkHeader
+                    let mappedUsers = self.mappingFavouritesState(for: result.users)
+                    self.setState(.idle)
+                    self.users = mappedUsers
+                    self.lastLinkHeader = result.linkHeader
                 } else {
-                    self?.setState(.completed(.receiveEmptyData))
+                    self.setState(.completed(.receiveEmptyData))
                 }
             }).disposed(by: disposeBag)
     }
@@ -58,10 +65,12 @@ class UserListViewModel: RxViewModel {
         usersNetworkClient.fetchNextUsersPage(from: linkHeader)
             .catchError({ [unowned self] in self.handleError($0)})
             .subscribe(onSuccess: { [weak self] result in
-                self?.setState(.idle)
-                self?.lastLinkHeader = result.linkHeader
-                self?.isLoadingMore = false
-                self?.users.append(contentsOf: result.users)
+                guard let `self` = self else { return }
+                let mappedUsers = self.mappingFavouritesState(for: result.users)
+                self.setState(.idle)
+                self.lastLinkHeader = result.linkHeader
+                self.isLoadingMore = false
+                self.users.append(contentsOf: mappedUsers)
             }).disposed(by: disposeBag)
     }
     
@@ -86,12 +95,41 @@ class UserListViewModel: RxViewModel {
             var updatedUser = user
             updatedUser.isFavourited.toggle()
             users[index] = updatedUser
+            // The favourites list wont be updated anywhere else outside of the app
+            // So just keep it update in the persistor is good enough
+            if updatedUser.isFavourited {
+                dataPersistor.addFavorite(userId: updatedUser.id)
+            } else {
+                dataPersistor.removeFromFavorite(userId: updatedUser.id)
+            }
         }
+    }
+
+}
+
+/// MARK - Utilities
+extension UserListViewModel {
+    func mappingFavouritesState(for users: [GitHubUser]) -> [GitHubUser] {
+        var mappedUsers = users
+        for (index, user) in users.enumerated() {
+            // Break the loop when Ids array become empty to avoid redundant check
+            if favouritesUserIds.isEmpty { break }
+            // Check if favouriteIds contains current userId
+            if favouritesUserIds.contains(user.id) {
+                // Remove users from ids array after updating favourite status to save the cost for next contains check
+                favouritesUserIds.removeAll(where: { $0 == user.id })
+                // Update the change
+                mappedUsers[index].update(isFavorite: true)
+            }
+        }
+        return mappedUsers
     }
     
     func resetData() {
+        // Reset all data to initial state
         users = []
         setState(.idle)
+        favouritesUserIds = dataPersistor.favouriteUserIds
     }
     
     func user(at index: Int) -> GitHubUser? {
