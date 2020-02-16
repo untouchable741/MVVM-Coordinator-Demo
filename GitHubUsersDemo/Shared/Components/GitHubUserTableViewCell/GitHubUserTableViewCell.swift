@@ -30,7 +30,7 @@ class GitHubUserTableViewCell: UITableViewCell {
         githubUrlLabel.text = user.url
         accountTypeLabel.text = "Account Type: \(user.accountType ?? "")"
         siteAdminLabel.text = "Site Admin: \(user.siteAdmin ?? false)"
-        favouriteButton.setTitle(user.isFavourited ? "Liked" : "Like", for: .normal)
+        favouriteButton.isSelected = user.isFavourited
         self.user = user
     }
     

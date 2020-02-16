@@ -155,6 +155,30 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
+  /// This `R.image` struct is generated, and contains static references to 2 images.
+  struct image {
+    /// Image `favorite_selected`.
+    static let favorite_selected = Rswift.ImageResource(bundle: R.hostingBundle, name: "favorite_selected")
+    /// Image `favorite`.
+    static let favorite = Rswift.ImageResource(bundle: R.hostingBundle, name: "favorite")
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "favorite", bundle: ..., traitCollection: ...)`
+    static func favorite(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.favorite, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "favorite_selected", bundle: ..., traitCollection: ...)`
+    static func favorite_selected(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.favorite_selected, compatibleWith: traitCollection)
+    }
+    #endif
+
+    fileprivate init() {}
+  }
+
   /// This `R.nib` struct is generated, and contains static references to 1 nibs.
   struct nib {
     /// Nib `GitHubUserTableViewCell`.
@@ -199,13 +223,20 @@ struct R: Rswift.Validatable {
 struct _R: Rswift.Validatable {
   static func validate() throws {
     #if os(iOS) || os(tvOS)
+    try nib.validate()
+    #endif
+    #if os(iOS) || os(tvOS)
     try storyboard.validate()
     #endif
   }
 
   #if os(iOS) || os(tvOS)
-  struct nib {
-    struct _GitHubUserTableViewCell: Rswift.NibResourceType, Rswift.ReuseIdentifierType {
+  struct nib: Rswift.Validatable {
+    static func validate() throws {
+      try _GitHubUserTableViewCell.validate()
+    }
+
+    struct _GitHubUserTableViewCell: Rswift.NibResourceType, Rswift.ReuseIdentifierType, Rswift.Validatable {
       typealias ReusableType = GitHubUserTableViewCell
 
       let bundle = R.hostingBundle
@@ -214,6 +245,13 @@ struct _R: Rswift.Validatable {
 
       func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> GitHubUserTableViewCell? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? GitHubUserTableViewCell
+      }
+
+      static func validate() throws {
+        if UIKit.UIImage(named: "favorite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'favorite' is used in nib 'GitHubUserTableViewCell', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "favorite_selected", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'favorite_selected' is used in nib 'GitHubUserTableViewCell', but couldn't be loaded.") }
+        if #available(iOS 11.0, tvOS 11.0, *) {
+        }
       }
 
       fileprivate init() {}

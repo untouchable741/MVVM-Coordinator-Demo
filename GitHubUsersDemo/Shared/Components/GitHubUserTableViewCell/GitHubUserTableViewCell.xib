@@ -31,15 +31,31 @@
                                                     <constraint firstAttribute="width" constant="64" id="qa1-iP-xtT"/>
                                                 </constraints>
                                             </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hPn-T6-1O1">
-                                                <rect key="frame" x="0.0" y="64" width="64" height="30"/>
-                                                <state key="normal" title="Like"/>
-                                                <connections>
-                                                    <action selector="favouriteDidTap:" destination="pES-cX-tRD" eventType="touchUpInside" id="4lc-Ah-Hba"/>
-                                                </connections>
-                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YnV-07-5OH">
+                                                <rect key="frame" x="0.0" y="64" width="64" height="36"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hPn-T6-1O1">
+                                                        <rect key="frame" x="15.5" y="3" width="33" height="33"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="33" id="jMk-5n-0G8"/>
+                                                            <constraint firstAttribute="width" constant="33" id="jxW-DB-hEE"/>
+                                                        </constraints>
+                                                        <state key="normal" image="favorite"/>
+                                                        <state key="selected" image="favorite_selected"/>
+                                                        <connections>
+                                                            <action selector="favouriteDidTap:" destination="pES-cX-tRD" eventType="touchUpInside" id="4lc-Ah-Hba"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="hPn-T6-1O1" firstAttribute="centerX" secondItem="YnV-07-5OH" secondAttribute="centerX" id="FbI-tb-4uT"/>
+                                                    <constraint firstAttribute="bottom" secondItem="hPn-T6-1O1" secondAttribute="bottom" id="MGE-sk-DR8"/>
+                                                    <constraint firstAttribute="height" constant="36" id="WF1-Gw-ut7"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a3t-U3-tBh">
-                                                <rect key="frame" x="0.0" y="94" width="64" height="6"/>
+                                                <rect key="frame" x="0.0" y="100" width="64" height="0.0"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                         </subviews>
@@ -130,4 +146,8 @@
             <point key="canvasLocation" x="49" y="36"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="favorite" width="50" height="50.333332061767578"/>
+        <image name="favorite_selected" width="50" height="50.333332061767578"/>
+    </resources>
 </document>
