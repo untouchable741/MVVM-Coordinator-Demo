@@ -28,8 +28,8 @@ class GitHubUserTableViewCell: UITableViewCell {
         loginLabel.text = user.login
         avatarDownloadTask = avatarImageView?.kf.setImage(with: ImageResource(downloadURL: URL(string: user.avatar!)!))
         githubUrlLabel.text = user.url
-        accountTypeLabel.text = "Account Type: \(user.accountType ?? "")"
-        siteAdminLabel.text = "Site Admin: \(user.siteAdmin ?? false)"
+        accountTypeLabel.text = "Account Type: \(user.accountType, default: "")"
+        siteAdminLabel.text = "Site Admin: \(user.siteAdmin, default: false)"
         favouriteButton.isSelected = user.isFavourited
         self.user = user
     }

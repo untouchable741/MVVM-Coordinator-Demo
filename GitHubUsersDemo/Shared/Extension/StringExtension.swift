@@ -8,6 +8,32 @@
 
 import Foundation
 
+extension String.StringInterpolation {
+    mutating func appendInterpolation(_ string: String?, default defaultValue: String) {
+        if let string = string {
+            appendLiteral(string)
+        } else {
+            appendLiteral(defaultValue)
+        }
+    }
+    
+    mutating func appendInterpolation(_ value: Int?, default defaultValue: Int) {
+        if let value = value {
+            appendLiteral("\(value)")
+        } else {
+            appendLiteral("\(defaultValue)")
+        }
+    }
+    
+    mutating func appendInterpolation(_ value: Bool?, default defaultValue: Bool) {
+        if let value = value {
+            appendLiteral("\(value)")
+        } else {
+            appendLiteral("\(defaultValue)")
+        }
+    }
+}
+
 extension String {
     func firstMatches(for regex: String) -> String? {
         do {

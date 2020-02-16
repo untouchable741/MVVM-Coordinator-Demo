@@ -13,7 +13,6 @@ enum NetworkError: Error, LocalizedError {
     case badUrl
     case invalidResponse
     case serverResponse(code: Int?, message: String?)
-    
     var errorDescription: String? {
         switch self {
         case .badUrl:
@@ -21,7 +20,7 @@ enum NetworkError: Error, LocalizedError {
         case .invalidResponse:
             return "Invalid response"
         case .serverResponse(let code, let message):
-            return "\(message) (\(code))"
+            return "\(message, default: "") (\(code, default: -1))"
         }
     }
 }
