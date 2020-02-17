@@ -35,7 +35,7 @@ extension UserListCoordinator {
         let userRepoCoordinator = UserRepoCoordinator()
         add(userRepoCoordinator)
         userRepoCoordinator.start(sceneType: .push(navigationController!), payload: user)
-        // When user repo list is removing from parent on navigation back button action
+        // When user repo list is being removed from parent on navigation back button action
         // Do it this way we don't need to tweak into UINavigationViewControllerDelegate which limiting our app expandability
         // because 1 single navigation controller can be used to manipulate many view controllers across modules
         userRepoCoordinator.detachingHandler = { [weak self] sender in

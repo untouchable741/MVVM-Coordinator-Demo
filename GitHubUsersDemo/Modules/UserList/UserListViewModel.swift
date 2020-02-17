@@ -160,7 +160,6 @@ extension UserListViewModel {
         // Reset all data to initial state
         users = []
         paginationStatus = .canLoadMore
-        // Reset favoriteIds to keep the fresh data synced up
         favouritesUserIds = dataPersistor.favouriteUserIds
     }
     
