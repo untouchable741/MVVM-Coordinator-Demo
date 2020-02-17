@@ -56,6 +56,7 @@
 		97E5497023F9B54D00AD0FF3 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 97E5494923F7EC1F00AD0FF3 /* users.json */; };
 		97E5497223F9B56800AD0FF3 /* StubManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5497123F9B56800AD0FF3 /* StubManager.swift */; };
 		97E5497423F9BAC400AD0FF3 /* next_page_users.json in Resources */ = {isa = PBXBuildFile; fileRef = 97E5497323F9BAC400AD0FF3 /* next_page_users.json */; };
+		97E5497C23F9C9B200AD0FF3 /* UserListCoordinatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5497B23F9C9B200AD0FF3 /* UserListCoordinatorTest.swift */; };
 		A0BB6612862524B9ABFCE9CB /* Pods_GitHubUsersDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD319E86B9853EF885719381 /* Pods_GitHubUsersDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -124,6 +125,7 @@
 		97E5496D23F9B45C00AD0FF3 /* UserNetworkClientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNetworkClientTest.swift; sourceTree = "<group>"; };
 		97E5497123F9B56800AD0FF3 /* StubManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubManager.swift; sourceTree = "<group>"; };
 		97E5497323F9BAC400AD0FF3 /* next_page_users.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = next_page_users.json; sourceTree = "<group>"; };
+		97E5497B23F9C9B200AD0FF3 /* UserListCoordinatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListCoordinatorTest.swift; sourceTree = "<group>"; };
 		E447B9C650EC481F605E839D /* Pods_GitHubUsersDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GitHubUsersDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E47BD1257BEB1969AE2FAF75 /* Pods-GitHubUsersDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubUsersDemo.debug.xcconfig"; path = "Target Support Files/Pods-GitHubUsersDemo/Pods-GitHubUsersDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		FD319E86B9853EF885719381 /* Pods_GitHubUsersDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GitHubUsersDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				97E5496F23F9B54100AD0FF3 /* TestHelpers */,
+				97E5497A23F9C99F00AD0FF3 /* Coordinator */,
 				97E5496C23F9B3D800AD0FF3 /* Networking */,
 				97E5496923F9AC1200AD0FF3 /* Utilities */,
 				97238B0723F7B88700E43344 /* Info.plist */,
@@ -415,6 +418,14 @@
 				97E5497123F9B56800AD0FF3 /* StubManager.swift */,
 			);
 			path = TestHelpers;
+			sourceTree = "<group>";
+		};
+		97E5497A23F9C99F00AD0FF3 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				97E5497B23F9C9B200AD0FF3 /* UserListCoordinatorTest.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		FF822B5DDE058BA2A71137D2 /* Pods */ = {
@@ -684,6 +695,7 @@
 				97E5497223F9B56800AD0FF3 /* StubManager.swift in Sources */,
 				97E5496823F9AB8B00AD0FF3 /* UserDefaultWrapperTest.swift in Sources */,
 				97E5496B23F9AC2400AD0FF3 /* RelayWrapperTest.swift in Sources */,
+				97E5497C23F9C9B200AD0FF3 /* UserListCoordinatorTest.swift in Sources */,
 				97E5496E23F9B45C00AD0FF3 /* UserNetworkClientTest.swift in Sources */,
 				97E5496623F9A5F400AD0FF3 /* GitHubLinkParserTest.swift in Sources */,
 			);
