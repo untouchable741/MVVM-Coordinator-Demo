@@ -7,10 +7,8 @@ target 'GitHubUsersDemo' do
   pod 'Kingfisher'
   pod 'Alamofire'
   pod 'RxSwift'
-  pod 'RxBlocking'
   pod 'RxCocoa'
   pod 'R.swift'
-  pod 'RxTest'
   pod 'SVProgressHUD'
   
   # Pods for GitHubUsersDemo
@@ -19,6 +17,8 @@ target 'GitHubUsersDemo' do
     inherit! :search_paths
     # Pods for testing
     pod 'Mockingjay', '~> 3.0.0-alpha.1'
+    pod 'RxBlocking'
+    pod 'RxTest'
   end
 
 end
