@@ -17,7 +17,14 @@ struct GitHubRequestEncoding: ParameterEncoding {
     init(queries: Parameters? = nil, body: Parameters? = nil, headers: HTTPHeaders? = nil) {
         self.queries = queries
         self.body = body
-        self.headers = headers
+        
+        // Injecting auth token if it's not empty
+        if APIEndpoint.token.count > 0 {
+            self.headers = HTTPHeaders(dictionaryLiteral: ("Authorization", "token \(APIEndpoint.token)"))
+                                    .merging(headers ?? [:], uniquingKeysWith: { current, new in current })
+        } else {
+            self.headers = headers
+        }
     }
 
     func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {

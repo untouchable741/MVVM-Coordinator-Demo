@@ -31,6 +31,10 @@ enum GitHubAPI {
 struct APIEndpoint {
     static let endpoint = "https://api.github.com"
     static let apiPath = ""
+    /// GitHub Auth token to increase the API rate limit
+    /// Will be used only if not empty
+    static let token = ""
+    
     static func fullUrlString(for api: GitHubAPI) -> String {
         return #"\#(endpoint)\#(api.apiPath)"#
     }
