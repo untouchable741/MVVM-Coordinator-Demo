@@ -14,6 +14,7 @@ pod install
 - [x] Apply Protocol-oriented programing and dependencies injection for easier mocking/stubbing in writting unit testing.
 - [x] [Mockingjay](https://github.com/kylef/Mockingjay) as network stubbing library for unit testing.
 - [x] Utilized swift 5 new features (propertyWrapper, stringInterpolation).
+- [x] Unit Testing
 - [ ] UI Testing
 
 ## Descriptions
