@@ -1,4 +1,4 @@
-# GitHubUsersDemo
+# MVVM-Coordinator Demo
 ## Installations
 In the repo's root folder, run :
 ```
